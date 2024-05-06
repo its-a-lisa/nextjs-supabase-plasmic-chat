@@ -1,0 +1,71 @@
+.root {
+  display: inline-flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  justify-self: flex-start;
+}
+.rootisEmpty {
+  justify-content: center;
+  align-items: center;
+  background: #f1c9c9;
+  border-radius: 50%;
+}
+.img {
+  max-width: 100%;
+  width: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 50px;
+}
+.imgisEmpty {
+  display: none !important;
+}
+.imgsize__60 {
+  width: 60px;
+  min-width: 60px;
+  height: 60px;
+  min-height: 60px;
+  flex-shrink: 0;
+}
+.imgsize__45 {
+  width: 45px;
+  min-width: 45px;
+  height: 45px;
+  min-height: 45px;
+  flex-shrink: 0;
+}
+.freeBox {
+  background: none;
+  justify-content: center;
+  flex-direction: row;
+  width: 80px;
+  height: 80px;
+  align-items: center;
+  flex-shrink: 0;
+  display: none;
+}
+.freeBoxisEmpty {
+  display: flex;
+}
+.freeBoxisEmpty_size__60 {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+.freeBoxisEmpty_size__45 {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+}
+.slotTargetPrefixText {
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+}
