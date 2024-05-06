@@ -83,7 +83,7 @@ type VariantPropType = keyof PlasmicAuthForm__VariantsArgs;
 export const PlasmicAuthForm__VariantProps = new Array<VariantPropType>("mode");
 
 export type PlasmicAuthForm__ArgsType = {
-  handleSubmit?: (mode: string, email: string, password: string) => void;
+  handleSubmit?: (mode: string, credentials: string) => void;
 };
 type ArgPropType = keyof PlasmicAuthForm__ArgsType;
 export const PlasmicAuthForm__ArgProps = new Array<ArgPropType>("handleSubmit");
@@ -101,7 +101,7 @@ export type PlasmicAuthForm__OverridesType = {
 };
 
 export interface DefaultAuthFormProps {
-  handleSubmit?: (mode: string, email: string, password: string) => void;
+  handleSubmit?: (mode: string, credentials: string) => void;
   mode?: SingleChoiceArg<"signIn" | "signUp" | "checkEmail">;
   className?: string;
 }
@@ -162,6 +162,28 @@ function PlasmicAuthForm__RenderFunc(props: {
         type: "private",
         variableType: "text",
         initFunc: ({ $props, $state, $queries, $ctx }) => "SignIn"
+      },
+      {
+        path: "credentialsForm",
+        type: "private",
+        variableType: "array",
+        initFunc: ({ $props, $state, $queries, $ctx }) =>
+          (() => {
+            try {
+              return {
+                email: $state.emailInput.value,
+                password: $state.passwordInput.value
+              };
+            } catch (e) {
+              if (
+                e instanceof TypeError ||
+                e?.plasmicType === "PlasmicUndefinedDataError"
+              ) {
+                return [];
+              }
+              throw e;
+            }
+          })()
       }
     ],
     [$props, $ctx, $refs]
@@ -272,8 +294,8 @@ function PlasmicAuthForm__RenderFunc(props: {
                 (e => e.target?.value).apply(null, eventArgs)
               );
             }}
-            placeholder={"you@example.com"}
-            type={"email"}
+            placeholder={"******"}
+            type={"password"}
             value={
               generateStateValueProp($state, ["passwordInput", "value"]) ?? ""
             }
@@ -321,20 +343,7 @@ function PlasmicAuthForm__RenderFunc(props: {
                       })(),
                       (() => {
                         try {
-                          return $state.emailInput.value;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return undefined;
-                          }
-                          throw e;
-                        }
-                      })(),
-                      (() => {
-                        try {
-                          return $state.passwordInput.value;
+                          return $state.credentialsForm;
                         } catch (e) {
                           if (
                             e instanceof TypeError ||
