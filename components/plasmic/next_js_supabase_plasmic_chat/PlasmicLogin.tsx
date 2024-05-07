@@ -59,8 +59,10 @@ import {
   useGlobalActions
 } from "@plasmicapp/react-web/lib/host";
 
-import Layout from "../../Layout"; // plasmic-import: rzxNlgznxGgt/component
-import Chat from "../../Chat"; // plasmic-import: TVmNRZ5gGwh1/component
+import Header from "../../Header"; // plasmic-import: ezIvu27711XW/component
+import Body from "../../Body"; // plasmic-import: ZRf2O6sz1DCU/component
+import AuthForm from "../../AuthForm"; // plasmic-import: RbL4XTZzLpk6/component
+import Footer from "../../Footer"; // plasmic-import: b5VGypfNFBVC/component
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -80,7 +82,10 @@ export const PlasmicLogin__ArgProps = new Array<ArgPropType>();
 
 export type PlasmicLogin__OverridesType = {
   root?: Flex__<"div">;
-  layout?: Flex__<typeof Layout>;
+  header?: Flex__<typeof Header>;
+  body?: Flex__<typeof Body>;
+  authForm?: Flex__<typeof AuthForm>;
+  footer?: Flex__<typeof Footer>;
 };
 
 export interface DefaultLoginProps {}
@@ -141,11 +146,28 @@ function PlasmicLogin__RenderFunc(props: {
             sty.root
           )}
         >
-          <Layout
-            data-plasmic-name={"layout"}
-            data-plasmic-override={overrides.layout}
-            className={classNames("__wab_instance", sty.layout)}
-            mode={"logginIn"}
+          <Header
+            data-plasmic-name={"header"}
+            data-plasmic-override={overrides.header}
+            className={classNames("__wab_instance", sty.header)}
+            mode={"loggingIn"}
+          />
+
+          <Body
+            data-plasmic-name={"body"}
+            data-plasmic-override={overrides.body}
+            className={classNames("__wab_instance", sty.body)}
+          >
+            <AuthForm
+              data-plasmic-name={"authForm"}
+              data-plasmic-override={overrides.authForm}
+              className={classNames("__wab_instance", sty.authForm)}
+            />
+          </Body>
+          <Footer
+            data-plasmic-name={"footer"}
+            data-plasmic-override={overrides.footer}
+            className={classNames("__wab_instance", sty.footer)}
           />
         </div>
       </div>
@@ -154,15 +176,21 @@ function PlasmicLogin__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "layout"],
-  layout: ["layout"]
+  root: ["root", "header", "body", "authForm", "footer"],
+  header: ["header"],
+  body: ["body", "authForm"],
+  authForm: ["authForm"],
+  footer: ["footer"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
   (typeof PlasmicDescendants)[T][number];
 type NodeDefaultElementType = {
   root: "div";
-  layout: typeof Layout;
+  header: typeof Header;
+  body: typeof Body;
+  authForm: typeof AuthForm;
+  footer: typeof Footer;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -225,7 +253,10 @@ export const PlasmicLogin = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
-    layout: makeNodeComponent("layout"),
+    header: makeNodeComponent("header"),
+    body: makeNodeComponent("body"),
+    authForm: makeNodeComponent("authForm"),
+    footer: makeNodeComponent("footer"),
 
     // Metadata about props expected for PlasmicLogin
     internalVariantProps: PlasmicLogin__VariantProps,
