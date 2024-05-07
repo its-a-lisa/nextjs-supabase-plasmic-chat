@@ -91,8 +91,11 @@ export type PlasmicHeader__OverridesType = {
   root?: Flex__<"div">;
   typical?: Flex__<"div">;
   img?: Flex__<typeof PlasmicImg__>;
+  freeBox?: Flex__<"div">;
   authButton?: Flex__<typeof AuthButton>;
   login?: Flex__<"div">;
+  button?: Flex__<typeof Button>;
+  text?: Flex__<"div">;
 };
 
 export interface DefaultHeaderProps {
@@ -204,8 +207,10 @@ function PlasmicHeader__RenderFunc(props: {
 
         <Stack__
           as={"div"}
+          data-plasmic-name={"freeBox"}
+          data-plasmic-override={overrides.freeBox}
           hasGap={true}
-          className={classNames(projectcss.all, sty.freeBox__ufBdo)}
+          className={classNames(projectcss.all, sty.freeBox)}
         >
           <AuthButton
             data-plasmic-name={"authButton"}
@@ -213,46 +218,6 @@ function PlasmicHeader__RenderFunc(props: {
             className={classNames("__wab_instance", sty.authButton)}
           />
         </Stack__>
-        {false ? (
-          <div className={classNames(projectcss.all, sty.freeBox__hFkGl)}>
-            <button
-              className={classNames(
-                projectcss.all,
-                projectcss.button,
-                projectcss.__wab_text,
-                sty.button__atCoC
-              )}
-            >
-              {"Sign up"}
-            </button>
-            <Button
-              className={classNames("__wab_instance", sty.button__aS6Jc)}
-              endIcon={
-                <IconIcon
-                  className={classNames(projectcss.all, sty.svg__qGzPo)}
-                  role={"img"}
-                />
-              }
-              startIcon={
-                <ChecksvgIcon
-                  className={classNames(projectcss.all, sty.svg__awrfn)}
-                  role={"img"}
-                />
-              }
-              submitsForm={true}
-            >
-              <div
-                className={classNames(
-                  projectcss.all,
-                  projectcss.__wab_text,
-                  sty.text__p8RP
-                )}
-              >
-                {"Log in"}
-              </div>
-            </Button>
-          </div>
-        ) : null}
       </Stack__>
       <div
         data-plasmic-name={"login"}
@@ -263,14 +228,18 @@ function PlasmicHeader__RenderFunc(props: {
         })}
       >
         <Button
-          className={classNames("__wab_instance", sty.button__cm9Vu)}
+          data-plasmic-name={"button"}
+          data-plasmic-override={overrides.button}
+          className={classNames("__wab_instance", sty.button)}
           link={`/`}
         >
           <div
+            data-plasmic-name={"text"}
+            data-plasmic-override={overrides.text}
             className={classNames(
               projectcss.all,
               projectcss.__wab_text,
-              sty.text__trAde
+              sty.text
             )}
           >
             {"Back"}
@@ -282,11 +251,23 @@ function PlasmicHeader__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "typical", "img", "authButton", "login"],
-  typical: ["typical", "img", "authButton"],
+  root: [
+    "root",
+    "typical",
+    "img",
+    "freeBox",
+    "authButton",
+    "login",
+    "button",
+    "text"
+  ],
+  typical: ["typical", "img", "freeBox", "authButton"],
   img: ["img"],
+  freeBox: ["freeBox", "authButton"],
   authButton: ["authButton"],
-  login: ["login"]
+  login: ["login", "button", "text"],
+  button: ["button", "text"],
+  text: ["text"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -295,8 +276,11 @@ type NodeDefaultElementType = {
   root: "div";
   typical: "div";
   img: typeof PlasmicImg__;
+  freeBox: "div";
   authButton: typeof AuthButton;
   login: "div";
+  button: typeof Button;
+  text: "div";
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -361,8 +345,11 @@ export const PlasmicHeader = Object.assign(
     // Helper components rendering sub-elements
     typical: makeNodeComponent("typical"),
     img: makeNodeComponent("img"),
+    freeBox: makeNodeComponent("freeBox"),
     authButton: makeNodeComponent("authButton"),
     login: makeNodeComponent("login"),
+    button: makeNodeComponent("button"),
+    text: makeNodeComponent("text"),
 
     // Metadata about props expected for PlasmicHeader
     internalVariantProps: PlasmicHeader__VariantProps,
