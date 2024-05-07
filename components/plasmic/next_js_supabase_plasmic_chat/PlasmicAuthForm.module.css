@@ -108,13 +108,29 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
   width: 100%;
   height: auto;
   max-width: 100%;
   min-width: 0;
   padding: 8px;
+}
+.actionSection > :global(.__wab_flex-container) {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+  margin-top: calc(0px - 8px);
+  height: calc(100% + 8px);
+}
+.actionSection > :global(.__wab_flex-container) > *,
+.actionSection > :global(.__wab_flex-container) > :global(.__wab_slot) > *,
+.actionSection > :global(.__wab_flex-container) > picture > img,
+.actionSection
+  > :global(.__wab_flex-container)
+  > :global(.__wab_slot)
+  > picture
+  > img {
+  margin-top: 8px;
 }
 .actionSectionmode_checkEmail {
   display: none;
@@ -140,6 +156,7 @@
   width: 100%;
   height: auto;
   max-width: 100%;
+  cursor: pointer;
   min-width: 0;
 }
 .text___2R8OK {

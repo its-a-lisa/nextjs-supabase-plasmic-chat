@@ -155,13 +155,26 @@ function PlasmicAuthForm__RenderFunc(props: {
         path: "mode",
         type: "private",
         variableType: "variant",
-        initFunc: ({ $props, $state, $queries, $ctx }) => $props.mode
+        initFunc: ({ $props, $state, $queries, $ctx }) =>
+          (() => {
+            try {
+              return $state.currentMode;
+            } catch (e) {
+              if (
+                e instanceof TypeError ||
+                e?.plasmicType === "PlasmicUndefinedDataError"
+              ) {
+                return undefined;
+              }
+              throw e;
+            }
+          })() ?? $props.mode
       },
       {
         path: "currentMode",
         type: "private",
         variableType: "text",
-        initFunc: ({ $props, $state, $queries, $ctx }) => "SignIn"
+        initFunc: ({ $props, $state, $queries, $ctx }) => "signIn"
       },
       {
         path: "credentialsForm",
@@ -302,9 +315,11 @@ function PlasmicAuthForm__RenderFunc(props: {
           />
         </div>
       </div>
-      <div
+      <Stack__
+        as={"div"}
         data-plasmic-name={"actionSection"}
         data-plasmic-override={overrides.actionSection}
+        hasGap={true}
         className={classNames(projectcss.all, sty.actionSection, {
           [sty.actionSectionmode_checkEmail]: hasVariant(
             $state,
@@ -457,7 +472,7 @@ function PlasmicAuthForm__RenderFunc(props: {
             ? "Already have an account? Sign In now!"
             : "Don't have an account? Sign Up now!"}
         </div>
-      </div>
+      </Stack__>
       <div
         className={classNames(
           projectcss.all,
