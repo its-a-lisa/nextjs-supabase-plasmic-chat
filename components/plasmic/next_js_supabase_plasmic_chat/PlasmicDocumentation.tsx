@@ -59,8 +59,9 @@ import {
   useGlobalActions
 } from "@plasmicapp/react-web/lib/host";
 
-import Layout from "../../Layout"; // plasmic-import: rzxNlgznxGgt/component
-import Chat from "../../Chat"; // plasmic-import: TVmNRZ5gGwh1/component
+import Header from "../../Header"; // plasmic-import: ezIvu27711XW/component
+import Body from "../../Body"; // plasmic-import: ZRf2O6sz1DCU/component
+import Footer from "../../Footer"; // plasmic-import: b5VGypfNFBVC/component
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -80,7 +81,11 @@ export const PlasmicDocumentation__ArgProps = new Array<ArgPropType>();
 
 export type PlasmicDocumentation__OverridesType = {
   root?: Flex__<"div">;
-  layout?: Flex__<typeof Layout>;
+  header?: Flex__<typeof Header>;
+  body?: Flex__<typeof Body>;
+  h1?: Flex__<"h1">;
+  text?: Flex__<"div">;
+  footer?: Flex__<typeof Footer>;
 };
 
 export interface DefaultDocumentationProps {}
@@ -141,9 +146,62 @@ function PlasmicDocumentation__RenderFunc(props: {
             sty.root
           )}
         >
-          <Layout
-            data-plasmic-name={"layout"}
-            data-plasmic-override={overrides.layout}
+          <Header
+            data-plasmic-name={"header"}
+            data-plasmic-override={overrides.header}
+            className={classNames("__wab_instance", sty.header)}
+          />
+
+          <Body
+            data-plasmic-name={"body"}
+            data-plasmic-override={overrides.body}
+            className={classNames("__wab_instance", sty.body)}
+          >
+            <h1
+              data-plasmic-name={"h1"}
+              data-plasmic-override={overrides.h1}
+              className={classNames(
+                projectcss.all,
+                projectcss.h1,
+                projectcss.__wab_text,
+                sty.h1
+              )}
+            >
+              {"Documentation"}
+            </h1>
+            <div
+              data-plasmic-name={"text"}
+              data-plasmic-override={overrides.text}
+              className={classNames(
+                projectcss.all,
+                projectcss.__wab_text,
+                sty.text
+              )}
+            >
+              <React.Fragment>
+                <React.Fragment>
+                  {
+                    "If you haven't already done so, go back and learn the basics by going through the Plasmic Levels tutorial.\n\nIt's always easier to start from examples! Add a new page using a template\u2014do this from the list of pages in the top toolbar.\n\nOr press the big blue + button to start inserting items into this page.\n\nIntegrate this project into your codebase\u2014press the "
+                  }
+                </React.Fragment>
+                <span
+                  className={"plasmic_default__all plasmic_default__span"}
+                  style={{ fontWeight: 700 }}
+                >
+                  {"Code"}
+                </span>
+                <React.Fragment>
+                  {
+                    " button in the top right and follow the quickstart instructions.\n\nJoin our Slack community (icon in bottom left) for help any time."
+                  }
+                </React.Fragment>
+              </React.Fragment>
+            </div>
+          </Body>
+          <Footer
+            data-plasmic-name={"footer"}
+            data-plasmic-override={overrides.footer}
+            className={classNames("__wab_instance", sty.footer)}
           />
         </div>
       </div>
@@ -152,15 +210,23 @@ function PlasmicDocumentation__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "layout"],
-  layout: ["layout"]
+  root: ["root", "header", "body", "h1", "text", "footer"],
+  header: ["header"],
+  body: ["body", "h1", "text"],
+  h1: ["h1"],
+  text: ["text"],
+  footer: ["footer"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
   (typeof PlasmicDescendants)[T][number];
 type NodeDefaultElementType = {
   root: "div";
-  layout: typeof Layout;
+  header: typeof Header;
+  body: typeof Body;
+  h1: "h1";
+  text: "div";
+  footer: typeof Footer;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -218,12 +284,33 @@ function makeNodeComponent<NodeName extends NodeNameType>(nodeName: NodeName) {
   return func;
 }
 
+function withPlasmicPageGuard<P extends object>(
+  WrappedComponent: React.ComponentType<P>
+) {
+  const PageGuard: React.FC<P> = props => (
+    <PlasmicPageGuard__
+      minRole={null}
+      appId={"xc4oHLU6bxB8LcxYsqWiRJ"}
+      authorizeEndpoint={"https://studio.plasmic.app/authorize"}
+      canTriggerLogin={false}
+    >
+      <WrappedComponent {...props} />
+    </PlasmicPageGuard__>
+  );
+
+  return PageGuard;
+}
+
 export const PlasmicDocumentation = Object.assign(
   // Top-level PlasmicDocumentation renders the root element
-  makeNodeComponent("root"),
+  withPlasmicPageGuard(makeNodeComponent("root")),
   {
     // Helper components rendering sub-elements
-    layout: makeNodeComponent("layout"),
+    header: makeNodeComponent("header"),
+    body: makeNodeComponent("body"),
+    h1: makeNodeComponent("h1"),
+    text: makeNodeComponent("text"),
+    footer: makeNodeComponent("footer"),
 
     // Metadata about props expected for PlasmicDocumentation
     internalVariantProps: PlasmicDocumentation__VariantProps,

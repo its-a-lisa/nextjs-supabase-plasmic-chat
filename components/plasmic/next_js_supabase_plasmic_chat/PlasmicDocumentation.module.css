@@ -21,6 +21,28 @@
 .root > * {
   grid-column: 4;
 }
-.chat__ogxSo:global(.__wab_instance) {
+.header:global(.__wab_instance) {
+  max-width: 100%;
+  position: relative;
+}
+.body:global(.__wab_instance) {
+  max-width: 100%;
+  position: relative;
+}
+.h1 {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-bottom: 32px;
+  min-width: 0;
+}
+.text {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+}
+.footer:global(.__wab_instance) {
+  max-width: 100%;
   position: relative;
 }

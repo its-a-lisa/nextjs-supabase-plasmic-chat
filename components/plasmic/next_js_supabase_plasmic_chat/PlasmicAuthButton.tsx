@@ -137,44 +137,113 @@ function PlasmicAuthButton__RenderFunc(props: {
         sty.root
       )}
     >
-      <Stack__
-        as={"div"}
-        hasGap={true}
-        className={classNames(projectcss.all, sty.freeBox__hF8Hz)}
-      >
-        <div
-          data-plasmic-name={"text"}
-          data-plasmic-override={overrides.text}
-          className={classNames(
-            projectcss.all,
-            projectcss.__wab_text,
-            sty.text
-          )}
+      {(() => {
+        try {
+          return currentUser.isLoggedIn;
+        } catch (e) {
+          if (
+            e instanceof TypeError ||
+            e?.plasmicType === "PlasmicUndefinedDataError"
+          ) {
+            return true;
+          }
+          throw e;
+        }
+      })() ? (
+        <Stack__
+          as={"div"}
+          hasGap={true}
+          className={classNames(projectcss.all, sty.freeBox__hF8Hz)}
         >
-          {"Enter some text"}
-        </div>
-        <Button
-          data-plasmic-name={"logoutBtn"}
-          data-plasmic-override={overrides.logoutBtn}
-          className={classNames("__wab_instance", sty.logoutBtn)}
+          <div
+            data-plasmic-name={"text"}
+            data-plasmic-override={overrides.text}
+            className={classNames(
+              projectcss.all,
+              projectcss.__wab_text,
+              sty.text
+            )}
+          >
+            <React.Fragment>
+              {(() => {
+                try {
+                  return `Hi ${currentUser.email}`;
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return "";
+                  }
+                  throw e;
+                }
+              })()}
+            </React.Fragment>
+          </div>
+          <Button
+            data-plasmic-name={"logoutBtn"}
+            data-plasmic-override={overrides.logoutBtn}
+            className={classNames("__wab_instance", sty.logoutBtn)}
+          >
+            {"Logout"}
+          </Button>
+        </Stack__>
+      ) : null}
+      {(() => {
+        try {
+          return !currentUser.isLoggedIn;
+        } catch (e) {
+          if (
+            e instanceof TypeError ||
+            e?.plasmicType === "PlasmicUndefinedDataError"
+          ) {
+            return true;
+          }
+          throw e;
+        }
+      })() ? (
+        <Stack__
+          as={"div"}
+          hasGap={true}
+          className={classNames(projectcss.all, sty.freeBox__pfQvh)}
         >
-          {"Logout"}
-        </Button>
-      </Stack__>
-      <Stack__
-        as={"div"}
-        hasGap={true}
-        className={classNames(projectcss.all, sty.freeBox__pfQvh)}
-      >
-        <Button
-          data-plasmic-name={"loginBtn"}
-          data-plasmic-override={overrides.loginBtn}
-          className={classNames("__wab_instance", sty.loginBtn)}
-          link={`/login`}
-        >
-          {"Login"}
-        </Button>
-      </Stack__>
+          <Button
+            data-plasmic-name={"loginBtn"}
+            data-plasmic-override={overrides.loginBtn}
+            className={classNames("__wab_instance", sty.loginBtn)}
+            onClick={async event => {
+              const $steps = {};
+
+              $steps["goToLogin"] = true
+                ? (() => {
+                    const actionArgs = { destination: `/login` };
+                    return (({ destination }) => {
+                      if (
+                        typeof destination === "string" &&
+                        destination.startsWith("#")
+                      ) {
+                        document
+                          .getElementById(destination.substr(1))
+                          .scrollIntoView({ behavior: "smooth" });
+                      } else {
+                        __nextRouter?.push(destination);
+                      }
+                    })?.apply(null, [actionArgs]);
+                  })()
+                : undefined;
+              if (
+                $steps["goToLogin"] != null &&
+                typeof $steps["goToLogin"] === "object" &&
+                typeof $steps["goToLogin"].then === "function"
+              ) {
+                $steps["goToLogin"] = await $steps["goToLogin"];
+              }
+            }}
+          >
+            {"Login"}
+          </Button>
+        </Stack__>
+      ) : null}
     </div>
   ) as React.ReactElement | null;
 }
