@@ -418,12 +418,12 @@ function PlasmicAuthForm__RenderFunc(props: {
           onClick={async event => {
             const $steps = {};
 
-            $steps["updateMode"] = true
+            $steps["updateCurrentMode"] = true
               ? (() => {
                   const actionArgs = {
                     variable: {
                       objRoot: $state,
-                      variablePath: ["mode"]
+                      variablePath: ["currentMode"]
                     },
                     operation: 0,
                     value:
@@ -445,11 +445,11 @@ function PlasmicAuthForm__RenderFunc(props: {
                 })()
               : undefined;
             if (
-              $steps["updateMode"] != null &&
-              typeof $steps["updateMode"] === "object" &&
-              typeof $steps["updateMode"].then === "function"
+              $steps["updateCurrentMode"] != null &&
+              typeof $steps["updateCurrentMode"] === "object" &&
+              typeof $steps["updateCurrentMode"].then === "function"
             ) {
-              $steps["updateMode"] = await $steps["updateMode"];
+              $steps["updateCurrentMode"] = await $steps["updateCurrentMode"];
             }
           }}
         >
